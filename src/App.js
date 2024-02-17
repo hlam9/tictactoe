@@ -24,6 +24,13 @@ function App(){
   const moves = history.map((squares, move) => {
     let description;
     description = ((move > 0) ? 'Go to move #' + move : 'Go to game start');
+    if(move === currentMove){
+      return (
+        <li key={move}>
+          <div>You are at move {move}.</div>
+        </li>
+      );
+    }
     return (
       <li key={move}>
         <button onClick={() => jumpTo(move)}>{description}</button>
