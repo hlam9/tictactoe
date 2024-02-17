@@ -1,13 +1,15 @@
 
 import Square from './Square';
 import calculateWinner from './calculateWinner';
-function Board({xIsNext, squares, onPlay}) {
+function Board({xIsNext, squares, onPlay, currentMove}) {
     
-    const winner = calculateWinner(squares);
+    const gameOver = calculateWinner(squares);
+    const winner = gameOver?.winner;
+    const winningLine = gameOver?.line;
     let status;
     if (winner) {
       status = "Winner: " + winner;
-    } else if(squares.includes(null)) {
+    } else if(currentMove !== 9) {
       status = "Next player: " + (xIsNext ? "X" : "O");
     } else {
       status = "Game Over, tie";
@@ -31,8 +33,8 @@ function Board({xIsNext, squares, onPlay}) {
         let r = [];
         for(let i=0;i<size;i++){
           const index = i * size + row;
-          //const isWinningSquare = winningLine?.includes(index);
-          r.push(<Square key={index} value={squares[index]} onSquareClick={() => handleClick(index)}/>);
+          const highlight = winningLine?.includes(index);
+          r.push(<Square key={index} value={squares[index]} onSquareClick={() => handleClick(index)} highlight={highlight}/>);
         }
         board.push(<div className="board-row">
           {r}
